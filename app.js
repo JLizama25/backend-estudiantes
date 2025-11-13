@@ -25,10 +25,18 @@ app.use(session({
  app.get("/", (req, res) => {
   res.send("API de Estudiantes funcionando 🎉");
 });
+const mongoUri = process.env.MONGO_URI;
+if (!mongoUri) {
+  console.error("❌ Error: MONGO_URI no está definida");
+  process.exit(1); // Detiene la app si no hay URI
+}
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('✅ MongoDB conectado'))
-  .catch(err => console.error('❌ Error al conectar MongoDB:', err));
+mongoose.connect(mongoUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log("✅ Conectado a MongoDB"))
+.catch(err => console.error("❌ Error al conectar MongoDB:", err));
  
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/estudiantes', require('./routes/estudiantesRoutes'));
