@@ -22,7 +22,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
- 
+ app.get("/", (req, res) => {
+  res.send("API de Estudiantes funcionando 🎉");
+});
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ MongoDB conectado'))
   .catch(err => console.error('❌ Error al conectar MongoDB:', err));
